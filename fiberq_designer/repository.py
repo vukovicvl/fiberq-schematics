@@ -60,9 +60,12 @@ class GeoPackageRepository:
             options.driverName = 'GPKG'
             options.layerName = 'fqsd_' + key
             options.actionOnExistingFile = (
-                QgsVectorFileWriter.CreateOrOverwriteFile
+                QgsVectorFileWriter.ActionOnExistingFile.CreateOrOverwriteFile
                 if new
-                else QgsVectorFileWriter.CreateOrOverwriteLayer
+                else (
+                    QgsVectorFileWriter.ActionOnExistingFile
+                    .CreateOrOverwriteLayer
+                )
             )
             result = QgsVectorFileWriter.writeAsVectorFormatV3(
                 memory,
@@ -70,7 +73,7 @@ class GeoPackageRepository:
                 QgsProject.instance().transformContext(),
                 options,
             )
-            if result[0] != QgsVectorFileWriter.NoError:
+            if result[0] != QgsVectorFileWriter.WriterError.NoError:
                 raise RuntimeError('Cannot create {}: {}'.format(key, result))
             new = False
         with closing(sqlite3.connect(str(path))) as connection, connection:

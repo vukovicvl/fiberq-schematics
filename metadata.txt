@@ -8,7 +8,7 @@ about=Create and edit independent fiber-optic schematic workspaces inside QGIS.
  Uses separate GeoPackages and schematic EPSG:3857 positions, not geographic coordinates.
  Start in a blank QGIS project. No external FiberQ plugin, AutoCAD, online account
  or additional Python packages are required. English and Serbian UI are included.
-version=1.0.0
+version=1.0.1
 qgisMinimumVersion=4.0
 qgisMaximumVersion=4.99
 author=Vladimir Vukovic
@@ -24,6 +24,8 @@ experimental=False
 deprecated=False
 server=False
 hasProcessingProvider=False
-changelog=1.0.0 — First QGIS plugin release.
+changelog=1.0.1 — Fix all QGIS repository Qt6 enum findings and remove obsolete font-metrics fallback.
+ Add the official Qt6 checker as an enforced release gate.
+ 1.0.0 — First QGIS plugin release.
  Equipment and cable creation, fiber editing and tracing, reports and exports.
  QGIS toolbar and Vector menu with local Help/About and donation links.

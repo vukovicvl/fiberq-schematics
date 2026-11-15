@@ -23,13 +23,38 @@ jobs:
           python -m unittest -v
           test_domain test_housing_layout test_housing_multi
           test_closure_layout test_cable_catalog test_fiber_model
-          test_outlet_layout test_reports test_i18n test_plugin_packaging
-      - run: python tools/build_plugin.py
-      - run: python tools/check_release.py release/fiberq_schematics-1.0.0.zip
+          test_outlet_layout test_reports test_i18n test_plugin_packaging test_qt6_gate
+      - name: Build the release ZIP
+        run: python tools/build_plugin.py
+      - name: Check exact ZIP security and structure
+        run: python tools/check_release.py release/fiberq_schematics-*.zip
       - uses: actions/upload-artifact@v4
         with:
-          name: fiberq-schematics-1.0.0
+          name: fiberq-schematics-package
           path: |
-            release/fiberq_schematics-1.0.0.zip
-            release/fiberq_schematics-1.0.0.zip.sha256
+            release/fiberq_schematics-*.zip
+            release/fiberq_schematics-*.zip.sha256
             release/reports/
+  qt6:
+    name: Official QGIS Qt6 check
+    needs: quality
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/qgis/pyqgis4-checker:main-ubuntu
+    env:
+      QT_QPA_PLATFORM: offscreen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: fiberq-schematics-package
+          path: release/
+      - name: Check the exact release ZIP with full QGIS introspection
+        run: python3 tools/check_qt6.py release/fiberq_schematics-*.zip
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qt6-check-report
+          path: |
+            release/reports/qt6-check.json
+            release/reports/qt6-check.txt

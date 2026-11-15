@@ -20,7 +20,6 @@ from qgis.core import (
     QgsSymbolLayer,
     QgsTextBufferSettings,
     QgsTextFormat,
-    QgsUnitTypes,
     QgsVectorLayer,
     QgsVectorLayerSimpleLabeling,
 )
@@ -59,11 +58,7 @@ COLOR_NAMES = (
     'Aqua',
 )
 SPACING = 8.0
-MAP_UNITS = (
-    Qgis.RenderUnit.MapUnits
-    if hasattr(Qgis, 'RenderUnit')
-    else QgsUnitTypes.RenderMapUnits
-)
+MAP_UNITS = Qgis.RenderUnit.MapUnits
 
 
 def _layer(name, geometry, fields):
@@ -148,7 +143,7 @@ def _pen(layer, color='#333333', width='0.18', field=False, active=False):
     )
     if field:
         symbol.symbolLayer(0).setDataDefinedProperty(
-            QgsSymbolLayer.PropertyStrokeColor,
+            QgsSymbolLayer.Property.StrokeColor,
             QgsProperty.fromExpression(
                 'CASE WHEN "active" = 1 THEN \'#ef2020\' ELSE "color" END'
             )
@@ -157,7 +152,7 @@ def _pen(layer, color='#333333', width='0.18', field=False, active=False):
         )
     if active:
         symbol.symbolLayer(0).setDataDefinedProperty(
-            QgsSymbolLayer.PropertyStrokeWidth,
+            QgsSymbolLayer.Property.StrokeWidth,
             QgsProperty.fromExpression(
                 'CASE WHEN "active" = 1 THEN 0.65 ELSE {} END'.format(width)
             ),
@@ -175,7 +170,7 @@ def _labels(layer, dark=False):
     settings.placement = getattr(
         Qgis, 'LabelPlacement', QgsPalLayerSettings
     ).OverPoint
-    settings.quadOffset = QgsPalLayerSettings.QuadrantAboveRight
+    settings.quadOffset = Qgis.LabelQuadrantPosition.AboveRight
     fmt = QgsTextFormat()
     fmt.setSize(7)
     fmt.setSizeUnit(MAP_UNITS)
@@ -433,7 +428,7 @@ class CadView:
             }
         )
         symbol.symbolLayer(0).setDataDefinedProperty(
-            QgsSymbolLayer.PropertyLayerEnabled,
+            QgsSymbolLayer.Property.LayerEnabled,
             QgsProperty.fromExpression(
                 'coalesce("cad",0) != 1 AND coalesce("purpose",\'\') = \'\''
             ),
@@ -445,13 +440,13 @@ class CadView:
             }
         ).takeSymbolLayer(0)
         colored.setDataDefinedProperty(
-            QgsSymbolLayer.PropertyStrokeColor,
+            QgsSymbolLayer.Property.StrokeColor,
             QgsProperty.fromExpression(
                 'CASE WHEN "active" = 1 THEN \'#ef2020\' ELSE "color" END'
             ),
         )
         colored.setDataDefinedProperty(
-            QgsSymbolLayer.PropertyStrokeWidth,
+            QgsSymbolLayer.Property.StrokeWidth,
             QgsProperty.fromExpression(
                 'CASE WHEN "active" = 1 THEN 0.65 ELSE 0.22 END'
             ),
@@ -532,7 +527,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     0
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeColor,
+                    QgsSymbolLayer.Property.StrokeColor,
                     QgsProperty.fromExpression(
                         "CASE WHEN \"color\" = '#ffff00' THEN '{}' ELSE "
                         'coalesce("color", \'{}\') END'.format(
@@ -563,7 +558,7 @@ class CadView:
                     layer.renderer().symbol().symbolLayer(
                         0
                     ).setDataDefinedProperty(
-                        QgsSymbolLayer.PropertyStrokeColor,
+                        QgsSymbolLayer.Property.StrokeColor,
                         QgsProperty.fromExpression(
                             "CASE WHEN \"color\" = '#333333' THEN '#eeeeee' "
                             'ELSE "color" END'
@@ -574,7 +569,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     0
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyFillColor,
+                    QgsSymbolLayer.Property.FillColor,
                     QgsProperty.fromExpression(
                         'CASE WHEN "color" IS NULL OR "color" = \'\' OR '
                         '"color" = \'#333333\' '
@@ -586,7 +581,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     0
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeColor,
+                    QgsSymbolLayer.Property.StrokeColor,
                     QgsProperty.fromExpression(
                         'CASE WHEN "active" = 1 THEN \'#ef2020\' WHEN "color" '
                         "= '#333333' "
@@ -596,7 +591,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     0
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeWidth,
+                    QgsSymbolLayer.Property.StrokeWidth,
                     QgsProperty.fromExpression(
                         'CASE WHEN "active" = 1 THEN 0.65 ELSE '
                         'coalesce("width", 0.13) END'
@@ -607,7 +602,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     0
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeColor,
+                    QgsSymbolLayer.Property.StrokeColor,
                     QgsProperty.fromExpression(
                         'CASE WHEN "active" = 1 THEN \'#ef2020\' WHEN "color" '
                         "= '#333333' "
@@ -617,7 +612,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     0
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeWidth,
+                    QgsSymbolLayer.Property.StrokeWidth,
                     QgsProperty.fromExpression(
                         'CASE WHEN "active" = 1 THEN 0.65 ELSE '
                         'coalesce("width", 0.2) END'
@@ -627,11 +622,11 @@ class CadView:
                 _pen(layer, field=True, width='0.13')
                 symbol = layer.renderer().symbol().symbolLayer(0)
                 symbol.setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeWidth,
+                    QgsSymbolLayer.Property.StrokeWidth,
                     QgsProperty.fromField('width'),
                 )
                 symbol.setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeColor,
+                    QgsSymbolLayer.Property.StrokeColor,
                     QgsProperty.fromExpression(
                         "CASE WHEN \"color\" = '#333333' THEN '{}' "
                         'WHEN "color" = \'#ffff00\' THEN \'{}\' ELSE "color" '
@@ -642,7 +637,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     1
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeColor,
+                    QgsSymbolLayer.Property.StrokeColor,
                     QgsProperty.fromExpression(
                         'CASE WHEN "active" = 1 THEN \'#ef2020\' '
                         'WHEN "stroke" '
@@ -654,7 +649,7 @@ class CadView:
                 layer.renderer().symbol().symbolLayer(
                     1
                 ).setDataDefinedProperty(
-                    QgsSymbolLayer.PropertyStrokeWidth,
+                    QgsSymbolLayer.Property.StrokeWidth,
                     QgsProperty.fromExpression(
                         'CASE WHEN "active" = 1 THEN 0.65 ELSE '
                         'coalesce("width", 0.22) END'

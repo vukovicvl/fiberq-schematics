@@ -14,7 +14,6 @@ from qgis.core import (
     QgsTextFormat,
     QgsVectorLayer,
     QgsVectorLayerSimpleLabeling,
-    QgsWkbTypes,
 )
 from qgis.PyQt.QtGui import QColor, QFont
 
@@ -24,13 +23,13 @@ from .domain import FIBER_COLORS
 def label(layer, field, size, bold=False, above_frame=False):
     settings = QgsPalLayerSettings()
     settings.fieldName = field
-    if layer.geometryType() == QgsWkbTypes.LineGeometry:
+    if layer.geometryType() == Qgis.GeometryType.Line:
         settings.placement = getattr(
             Qgis, 'LabelPlacement', QgsPalLayerSettings
         ).Line
     if above_frame:
         settings.geometryGeneratorEnabled = True
-        settings.geometryGeneratorType = QgsWkbTypes.PointGeometry
+        settings.geometryGeneratorType = Qgis.GeometryType.Point
         settings.geometryGenerator = (
             'make_point(x($geometry), '
             "y_max(geometry(get_feature('FQSD | frames', 'obj_id', "

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 — 2026-11-15
+
+- Replace all 31 flat QGIS enum aliases reported by the repository Qt6 check
+  with scoped QGIS 4 APIs for GeoPackage writing, rendering, previews and exports.
+- Remove the obsolete `QFontMetrics.width()` fallback.
+- Run the official QGIS Qt6 checker against the exact release ZIP in CI and
+  fail on reported findings, including dry-run warnings with exit status zero.
+
 ## 1.0.0 — 2026-11-15
 
 - First packaged QGIS release as **FiberQ Schematics**.

@@ -1,6 +1,7 @@
 """Load the actual release ZIP using QGIS's real Python plugin manager."""
 
-import importlib
+from configparser import ConfigParser
+from importlib import import_module
 import json
 import os
 from pathlib import Path
@@ -28,7 +29,13 @@ from validate_package import validate
 def main():
     output = Path(os.environ['FQSD_REVIEW_OUTPUT'])
     output.mkdir(parents=True, exist_ok=True)
-    archive_path = ROOT / 'release/fiberq_schematics-1.0.0.zip'
+    metadata = ConfigParser(interpolation=None)
+    metadata.read(ROOT / 'metadata.txt', encoding='utf-8')
+    version = metadata['general']['version']
+    archive_path = Path(os.environ.get(
+        'FQSD_PLUGIN_ZIP',
+        str(ROOT / ('release/fiberq_schematics-' + version + '.zip')),
+    ))
     checks, errors, status = [], [], 'failed'
     name, plugin = 'fiberq_schematics', None
     try:
@@ -66,7 +73,7 @@ def main():
             return instance
 
         plugin = load()
-        assert qgis.utils.pluginMetadata(name, 'version') == '1.0.0'
+        assert qgis.utils.pluginMetadata(name, 'version') == version
         checks.append('Release ZIP imports/enables through the real QGIS plugin manager; one toolbar, two actions, no eager workspace')
         plugin.actions[1].trigger()
         pump()
@@ -137,6 +144,18 @@ def main():
         assert plugin.dock is dock and dock.path == str(workspace)
         assert iface.mainWindow().grab().save(str(output / 'installed-plugin.png'))
         dock.service.validate()
+        exports = import_module(name + '.fiberq_designer.exports')
+        for extension in ('pdf', 'svg'):
+            destination = output / ('plugin-example.' + extension)
+            exports.export_layout(dock.make_layout(), str(destination), extension)
+            assert destination.stat().st_size > 0
+        dxf = output / 'plugin-example.dxf'
+        exports.export_dxf(
+            iface.mapCanvas(), dock.drawing_layers(paper=True),
+            dock.diagram_extent(), str(dxf),
+        )
+        assert dxf.stat().st_size > 0
+        checks.append('Installed package PDF/SVG/DXF exports succeed with scoped renderer, writer and exporter enums')
         saved = dock.repository.snapshot()
         layers = set(QgsProject.instance().mapLayers())
         dock.save_project()

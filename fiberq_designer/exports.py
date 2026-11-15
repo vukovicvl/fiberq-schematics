@@ -157,7 +157,7 @@ def export_layout(layout, path, extension):
         if extension == 'pdf'
         else exporter.exportToSvg(path, QgsLayoutExporter.SvgExportSettings())
     )
-    if result != QgsLayoutExporter.Success:
+    if result != QgsLayoutExporter.ExportResult.Success:
         raise RuntimeError('Drawing export failed: {}'.format(result))
 
 
@@ -202,12 +202,7 @@ def export_dxf(canvas, layers, extent, path):
     exporter.addLayers(
         [QgsDxfExport.DxfLayer(layer, -1) for layer in prepared_layers]
     )
-    symbology = (
-        Qgis.FeatureSymbologyExport.PerSymbolLayer
-        if hasattr(Qgis, 'FeatureSymbologyExport')
-        else QgsDxfExport.SymbolLayerSymbology
-    )
-    exporter.setSymbologyExport(symbology)
+    exporter.setSymbologyExport(Qgis.FeatureSymbologyExport.PerSymbolLayer)
     exporter.setSymbologyScale(max(1.0, canvas.scale()))
     exporter.setDestinationCrs(QgsCoordinateReferenceSystem('EPSG:3857'))
     exporter.setExtent(extent)

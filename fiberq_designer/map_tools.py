@@ -1,7 +1,7 @@
 """Canvas input and transient route previews; no persistence in map events."""
 
 from qgis.PyQt.QtGui import QColor
-from qgis.core import QgsGeometry, QgsWkbTypes
+from qgis.core import Qgis, QgsGeometry
 from qgis.gui import QgsMapToolEmitPoint, QgsRubberBand
 
 from .compat import KEY_BACKSPACE, KEY_ENTER, KEY_ESCAPE, KEY_RETURN
@@ -12,13 +12,13 @@ class ClickTool(QgsMapToolEmitPoint):
         super().__init__(canvas)
         self.editor = editor
         self.canvasClicked.connect(self._clicked)
-        self.preview = QgsRubberBand(canvas, QgsWkbTypes.LineGeometry)
+        self.preview = QgsRubberBand(canvas, Qgis.GeometryType.Line)
         self.preview.setColor(QColor('#e59524'))
         self.preview.setWidth(3)
-        self.reference = QgsRubberBand(canvas, QgsWkbTypes.LineGeometry)
+        self.reference = QgsRubberBand(canvas, Qgis.GeometryType.Line)
         self.reference.setColor(QColor('#ee3333'))
         self.reference.setWidth(2)
-        self.snap_marker = QgsRubberBand(canvas, QgsWkbTypes.LineGeometry)
+        self.snap_marker = QgsRubberBand(canvas, Qgis.GeometryType.Line)
         self.snap_marker.setColor(QColor('#00cddd'))
         self.snap_marker.setWidth(2)
 
@@ -121,11 +121,11 @@ class ClickTool(QgsMapToolEmitPoint):
         self.preview.show()
 
     def clear(self):
-        self.preview.reset(QgsWkbTypes.LineGeometry)
+        self.preview.reset(Qgis.GeometryType.Line)
         self.preview.hide()
-        self.reference.reset(QgsWkbTypes.LineGeometry)
+        self.reference.reset(Qgis.GeometryType.Line)
         self.reference.hide()
-        self.snap_marker.reset(QgsWkbTypes.LineGeometry)
+        self.snap_marker.reset(Qgis.GeometryType.Line)
         self.snap_marker.hide()
 
     def deactivate(self):

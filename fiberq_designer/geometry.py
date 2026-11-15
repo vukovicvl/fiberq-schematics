@@ -97,11 +97,7 @@ def housing_font_metrics(text, family='Arial', bold=True):
     font.setPixelSize(1000)
     metrics = QFontMetricsF(font)
     height = metrics.capHeight()
-    width = (
-        metrics.horizontalAdvance(text)
-        if hasattr(metrics, 'horizontalAdvance')
-        else metrics.width(text)
-    )
+    width = metrics.horizontalAdvance(text)
     return QFontInfo(font).family(), width / height, 1000.0 / height
 
 

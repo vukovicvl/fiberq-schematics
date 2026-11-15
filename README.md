@@ -2,7 +2,7 @@
 
 <img src="icon.png" width="128" height="128" alt="FiberQ Schematics">
 
-**FiberQ Schematics 1.0.0** is a QGIS plugin for designing fiber-optic
+**FiberQ Schematics 1.0.1** is a QGIS plugin for designing fiber-optic
 schematics. Create equipment and cable routes, splice individual fibers,
 trace connected paths, and produce reports and drawing exports.
 
@@ -24,7 +24,7 @@ account are required. QGIS 3 support is not declared for this first release.
 
 ## Install and start
 
-1. Download `fiberq_schematics-1.0.0.zip` from the release assets, or install
+1. Download `fiberq_schematics-1.0.1.zip` from the release assets, or install
    from the QGIS plugin repository after approval.
 2. In QGIS, use **Plugins → Manage and Install Plugins → Install from ZIP**.
    Select the ZIP and enable **FiberQ Schematics**.
@@ -55,9 +55,17 @@ use entered real cable lengths, not distances measured from the drawing.
 
 ```bash
 python3 tools/build_plugin.py
-python3 tools/validate_package.py release/fiberq_schematics-1.0.0.zip
+python3 tools/validate_package.py release/fiberq_schematics-1.0.1.zip
 python3 -m pip install -r requirements-dev.txt
-python3 tools/check_release.py release/fiberq_schematics-1.0.0.zip
+python3 tools/check_release.py release/fiberq_schematics-1.0.1.zip
+```
+
+CI additionally runs the official QGIS Qt6 checker against the exact ZIP
+using the upstream QGIS container. Reported dry-run findings fail the gate
+even when the upstream process exits with zero. With that checker installed:
+
+```bash
+python3 tools/check_qt6.py release/fiberq_schematics-1.0.1.zip
 ```
 
 The builder uses a file allowlist, one standard plugin folder and regular

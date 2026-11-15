@@ -68,7 +68,7 @@ class PluginPackagingTests(unittest.TestCase):
         expected = dict(
             name='FiberQ Schematics',
             author='Vladimir Vukovic',
-            version='1.0.0',
+            version='1.0.1',
             email='vukovicvl@fiberq.net',
             homepage='https://www.fiberq.net/fiberq-schematics/',
         )
@@ -78,6 +78,7 @@ class PluginPackagingTests(unittest.TestCase):
             b'\x89PNG\r\n\x1a\n', (ROOT / 'icon.png').read_bytes()[:8]
         )
         html = (ROOT / 'help/index.html').read_text()
+        self.assertIn(metadata['name'] + ' ' + metadata['version'], html)
         for value in (
             metadata['homepage'],
             metadata['tracker'],
