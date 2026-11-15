@@ -1,0 +1,5 @@
+from_element,from_port,to_element,to_port
+LEFT_12F,01,RIGHT_12F,01
+LEFT_12F,02,RIGHT_12F,04
+LEFT_12F,03,RIGHT_12F,03
+LEFT_12F,06,RIGHT_12F,07

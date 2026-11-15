@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+release/
+*.gpkg
+*.gpkg-shm
+*.gpkg-wal
+*.qgz
+*.qgs
+*.msi
+*.zip

@@ -1,0 +1,29 @@
+[general]
+name=FiberQ Schematics
+description=Design fiber-optic schematics with equipment, cables, splicing, tracing and optical budgets.
+about=Create and edit independent fiber-optic schematic workspaces inside QGIS.
+ Includes ODFs, patch panels, FDH/MDU cabinets, FAT/OTB boxes, closures,
+ splitters, OLT/ONT equipment, cable catalogues, snapping, fiber operations,
+ tracing, reports, optical budgets, legends and PDF/SVG/DXF exports.
+ Uses separate GeoPackages and schematic EPSG:3857 positions, not geographic coordinates.
+ Start in a blank QGIS project. No external FiberQ plugin, AutoCAD, online account
+ or additional Python packages are required. English and Serbian UI are included.
+version=1.0.0
+qgisMinimumVersion=4.0
+qgisMaximumVersion=4.99
+author=Vladimir Vukovic
+email=vukovicvl@fiberq.net
+homepage=https://www.fiberq.net/fiberq-schematics/
+repository=https://github.com/vukovicvl/fiberq-schematics
+tracker=https://github.com/vukovicvl/fiberq-schematics/issues
+icon=icon.png
+category=Vector
+tags=fiber,fibre,optical network,ftth,schematics,splicing,telecommunications
+license=MIT
+experimental=False
+deprecated=False
+server=False
+hasProcessingProvider=False
+changelog=1.0.0 — First QGIS plugin release.
+ Equipment and cable creation, fiber editing and tracing, reports and exports.
+ QGIS toolbar and Vector menu with local Help/About and donation links.

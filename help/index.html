@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="utf-8"><title>FiberQ Schematics Help</title></head>
+<body>
+<h2>Getting started</h2>
+<ol>
+<li>Open a blank QGIS project. Press <b>FiberQ Schematics</b> on the toolbar
+or select it in <b>Vector → FiberQ Schematics</b>.</li>
+<li>Use <b>Workspace → New</b> for a new GeoPackage, or <b>Open</b> for an
+existing schematic. Changes are saved immediately.</li>
+<li>For a ready-to-use example, open <b>Workspace → Demonstrations → Demo</b>.
+Choose a new file. The network and splice examples are also available.</li>
+<li>Use <b>Draw</b> for equipment and cables, <b>Edit</b> for selection and
+movement, and <b>Fibers</b> for optical connections.</li>
+<li>Use <b>Reports</b> for route reports, checks, materials, optical budgets,
+legends and settings. <b>Workspace</b> exports PDF, SVG and DXF.</li>
+</ol>
+<h2>Fiber tools</h2>
+<p><b>Snap</b> highlights exact free cable ends, cut ends and equipment
+connectors. <b>Join</b> connects two free endpoints; <b>Group join</b> connects
+consecutive pairs. <b>Cut</b> opens a fiber or existing join. <b>Through</b>
+restores a cut. Click a joined fiber to highlight its connected path;
+open cuts stop continuity. <b>Fiber data</b> applies purpose along that path.</p>
+<p><b>Branch</b> diverts existing free A/B ends. A is the drawing start and
+B the finish. Choose a count and free end, click inside the first fiber, then
+place the diverted end ahead and to one side. Connect it using Join.
+<b>Restore route</b> returns the selected fiber to the cable path;
+use Select cable to restore the bundle. Restore cuts with Through first.</p>
+<p><b>Esc</b> or right-click cancels placement. Undo and Redo are available for
+edits in the current session.</p>
+<h2>Workspaces</h2>
+<p>Keep the GeoPackage with your project. <b>Save project</b> writes a QGIS
+project beside it. Reopen the GeoPackage in FiberQ to continue editing.
+Older workspaces migrate to a separate copy; the original is preserved.</p>
+<p>EPSG:3857 values are schematic drawing positions. Optical budgets use
+entered real cable lengths. Use separate schematic GeoPackages and start
+in a blank project.</p>
+<h2>Support and project</h2>
+<p><b>FiberQ Schematics 1.0.0</b><br>Vladimir Vukovic<br>
+<a href="mailto:vukovicvl@fiberq.net">vukovicvl@fiberq.net</a></p>
+<ul>
+<li><a href="https://www.fiberq.net/fiberq-schematics/">Plugin website and documentation</a></li>
+<li><a href="https://github.com/vukovicvl/fiberq-schematics">Public source repository</a></li>
+<li><a href="https://github.com/vukovicvl/fiberq-schematics/issues">Report an issue</a></li>
+<li><a href="https://github.com/sponsors/vukovicvl">Donate / sponsor development</a></li>
+</ul>
+<p>Donations are optional. All features work without payment or an account.</p>
+<p>Licensed under the MIT License. FiberQ CAD source-derived artwork and
+catalogue notices are included in FIBERQ_CAD_LICENSE.txt.</p>
+</body>
+</html>

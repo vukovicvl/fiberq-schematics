@@ -1,0 +1,4 @@
+# Development/release checks only; the installed plugin has no pip dependencies.
+bandit==1.9.4
+detect-secrets==1.5.0
+flake8==7.3.0
